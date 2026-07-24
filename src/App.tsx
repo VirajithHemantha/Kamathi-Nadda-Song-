@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles, MapPin, Calendar, Clock, Volume2, VolumeX } from "lucide-react";
 import StorySection from "./StorySection";
+import GallerySection from "./GallerySection";
 
 /**
  * Premium White & Silver Wedding Invitation Theme
@@ -769,6 +770,7 @@ export default function WeddingInvitation() {
             </section>
 
             <StorySection />
+            <GallerySection />
 
             {/* Countdown Section */}
             <section className="cv-auto py-24 md:py-36 bg-white/60 backdrop-blur-sm relative border-y border-theme-100/30 flex flex-col items-center overflow-hidden">
