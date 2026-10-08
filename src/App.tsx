@@ -360,15 +360,19 @@ export default function MusicInvitation() {
                   viewport={{ once: true }}
                   transition={{ duration: 1.5 }}
                 >
-                  <div className="mb-16 space-y-8">
-                    <p className="font-sinhala-serif text-2xl md:text-3xl text-[#4A443D] leading-[1.8] tracking-wide">
+                  <div className="mb-20 space-y-12">
+                    <p className="font-sinhala-serif text-3xl md:text-5xl text-[#FDFBF7] leading-[2.2] tracking-widest drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)]">
                       වචනයක් කියන්නෙ කතාවක්.<br />
                       හැගීමක තියෙන්නෙ කලාවක්.
                     </p>
-                    <p className="text-[#7A736A] font-light text-base md:text-lg">
-                      හැගීම් මුසු වෙච්ච ඔයාගෙ තනි වචනෙ මමත් ආසයි දැනගන්න.
+
+                    <div className="w-16 h-[1px] bg-white/40 mx-auto"></div>
+
+                    <p className="text-[#FDFBF7]/90 font-light text-lg md:text-xl leading-[2] tracking-wider drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                      හැගීම් මුසු වෙච්ච ඔයාගෙ තනි වචනෙ<br />මමත් ආසයි දැනගන්න.
                     </p>
-                    <p className="font-sinhala-serif text-lg text-[#8C7C6B] tracking-wide">
+
+                    <p className="font-sinhala-serif text-xl text-[#FDFBF7] tracking-[0.2em] drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] pt-4">
                       කැමතිනම් ලියන්න. ❤️
                     </p>
                   </div>
@@ -381,7 +385,7 @@ export default function MusicInvitation() {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0, y: -20 }}
                         onSubmit={submitOneWord}
-                        className="flex flex-col sm:flex-row gap-4 justify-center items-center max-w-sm mx-auto"
+                        className="flex flex-col sm:flex-row gap-4 justify-center items-center max-w-lg mx-auto w-full"
                       >
                         <input
                           type="text"
@@ -389,12 +393,12 @@ export default function MusicInvitation() {
                           onChange={(e) => setOneWord(e.target.value)}
                           placeholder="වචනයක් ලියන්න..."
                           maxLength={15}
-                          className="w-full bg-transparent border-b border-[#8C7C6B]/30 focus:border-[#4A443D] px-2 py-3 text-center text-xl font-sinhala-serif text-[#4A443D] outline-none placeholder:text-[#9A958F] transition-colors"
+                          className="w-full sm:w-2/3 bg-white/10 backdrop-blur-md border border-white/40 focus:bg-white/20 focus:border-white rounded-2xl px-6 py-4 text-center text-xl md:text-2xl font-sinhala-serif text-[#FDFBF7] outline-none placeholder:text-[#FDFBF7]/60 transition-all shadow-[0_8px_32px_rgba(0,0,0,0.3)]"
                           required
                         />
                         <button
                           type="submit"
-                          className="mt-4 sm:mt-0 px-6 py-2 border border-[#8C7C6B]/30 rounded-full text-[#8C7C6B] hover:bg-[#FDFBF7] transition-colors whitespace-nowrap text-sm"
+                          className="w-full sm:w-1/3 px-8 py-4 bg-white/20 hover:bg-white/30 backdrop-blur-md border border-white/50 rounded-2xl text-[#FDFBF7] transition-all font-sinhala-serif tracking-widest text-lg shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:shadow-xl hover:-translate-y-1"
                         >
                           යවන්න
                         </button>
@@ -404,7 +408,7 @@ export default function MusicInvitation() {
                         key="word-success"
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        className="text-2xl font-sinhala-serif text-[#8C7C6B]"
+                        className="text-2xl font-sinhala-serif text-[#FDFBF7] drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]"
                       >
                         ස්තූතියි!
                       </motion.div>
@@ -418,7 +422,7 @@ export default function MusicInvitation() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: i * 0.2 }}
-                        className="floating-word absolute font-sinhala-serif text-[#4A443D]/40 text-2xl md:text-4xl font-light whitespace-nowrap"
+                        className="floating-word absolute font-sinhala-serif text-[#FDFBF7]/60 text-2xl md:text-4xl font-light whitespace-nowrap drop-shadow-md"
                         style={{
                           left: `${15 + (i * 20)}%`,
                           top: `${20 + (i % 3) * 30}%`,
@@ -488,10 +492,14 @@ export default function MusicInvitation() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 1.5 }}
+                  className="flex flex-col items-center justify-center text-center"
                 >
-                  <h2 className="font-sinhala-serif text-3xl md:text-4xl text-[#4A443D] mb-8">ස්තූතියි. ❤️</h2>
-
-
+                  <h2 className="font-sinhala-serif text-3xl md:text-4xl text-[#4A443D] mb-3 flex items-center justify-center gap-2">
+                    ස්තූතියි. <span className="text-2xl md:text-3xl">❤️</span>
+                  </h2>
+                  <p className="font-sinhala-serif text-xl md:text-2xl text-[#8C7C6B] font-light tracking-wider opacity-90 mb-8">
+                    මම, මල්ෂාන් රන්වැල්ල
+                  </p>
                 </motion.div>
 
                 <motion.div
