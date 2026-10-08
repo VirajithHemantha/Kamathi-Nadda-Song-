@@ -39,11 +39,20 @@ export default function MusicInvitation() {
 
   const openInvitation = () => {
     setIsOpened(true);
-    // Play music automatically since the user interacted with the page
+    // Try to play music automatically
     setTimeout(() => {
       if (audioRef.current) {
-        audioRef.current.play().catch(e => console.log("Audio autoplay blocked:", e));
-        setIsPlaying(true);
+        const playPromise = audioRef.current.play();
+        if (playPromise !== undefined) {
+          playPromise
+            .then(() => {
+              setIsPlaying(true);
+            })
+            .catch(error => {
+              console.log("Audio autoplay blocked:", error);
+              setIsPlaying(false);
+            });
+        }
       }
     }, 500);
   };
@@ -52,10 +61,15 @@ export default function MusicInvitation() {
     if (audioRef.current) {
       if (isPlaying) {
         audioRef.current.pause();
+        setIsPlaying(false);
       } else {
-        audioRef.current.play();
+        const playPromise = audioRef.current.play();
+        if (playPromise !== undefined) {
+          playPromise
+            .then(() => setIsPlaying(true))
+            .catch(() => setIsPlaying(false));
+        }
       }
-      setIsPlaying(!isPlaying);
     }
   };
 
@@ -193,25 +207,20 @@ export default function MusicInvitation() {
             />
 
             {/* Persistent Audio Controls when playing */}
-            <AnimatePresence>
-              {isPlaying && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 20 }}
-                  className="fixed bottom-6 right-6 z-50 glass-button px-4 py-2 rounded-full flex items-center gap-3 shadow-sm"
-                >
-                  <div className="animate-waveform scale-75">
-                    <div className="waveform-bar"></div>
-                    <div className="waveform-bar"></div>
-                    <div className="waveform-bar"></div>
-                  </div>
-                  <button onClick={togglePlay} className="text-[#8C7C6B] hover:text-[#4A443D] transition-colors">
-                    <Pause size={18} fill="currentColor" />
-                  </button>
-                </motion.div>
-              )}
-            </AnimatePresence>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="fixed bottom-6 right-6 z-50 glass-button px-4 py-2 rounded-full flex items-center gap-3 shadow-sm"
+            >
+              <div className={`animate-waveform scale-75 ${!isPlaying ? 'opacity-30' : ''}`}>
+                <div className="waveform-bar" style={{ animationPlayState: isPlaying ? 'running' : 'paused' }}></div>
+                <div className="waveform-bar" style={{ animationPlayState: isPlaying ? 'running' : 'paused' }}></div>
+                <div className="waveform-bar" style={{ animationPlayState: isPlaying ? 'running' : 'paused' }}></div>
+              </div>
+              <button onClick={togglePlay} className="text-[#8C7C6B] hover:text-[#4A443D] transition-colors">
+                {isPlaying ? <Pause size={18} fill="currentColor" /> : <Play size={18} fill="currentColor" className="ml-1" />}
+              </button>
+            </motion.div>
 
             {/* HERO SECTION */}
             <section className="relative min-h-[100dvh] flex flex-col items-center justify-center text-center p-6 overflow-hidden">
