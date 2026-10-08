@@ -1,28 +1,27 @@
-const SHEET_ID = '1UVktW9iL5qJZs36CuTFkEJ44AMhEY_WMNaI-18CplMM';
+const SHEET_ID = '1bvUDuTuAVRJjiZ6UFUHjHI4xc5vimuW8uq7bQsrMO7Y';
 
-function doGet(e: any) {
+function doPost(e: any) {
   const lock = LockService.getScriptLock();
   lock.tryLock(10000);
 
   try {
     const doc = SpreadsheetApp.openById(SHEET_ID);
     
-    // e.parameter contains the URL query parameters sent by your React app
-    const params = e.parameter;
-    const formName = params.formName; // "rsvp" or "wish"
+    // Parse the JSON data sent in the request body
+    const data = JSON.parse(e.postData.contents);
+    const formName = data.formName; // "messages" or "oneword"
     
     // Determine sheet name and required headers based on the form type
-    const sheetName = formName === "rsvp" ? "RSVP Responses" : "Guest Wishes";
+    const sheetName = formName === "messages" ? "Wordings Section" : "One Word Wishes";
     let sheet = doc.getSheetByName(sheetName);
     
     // Define the headers based on the form type
     let headers: string[] = [];
-    if (formName === "rsvp") {
-      headers = ["Timestamp", "Name", "Guests", "Dietary Notes"];
-    } else if (formName === "wish") {
+    if (formName === "messages") {
       headers = ["Timestamp", "Name", "Message"];
+    } else if (formName === "oneword") {
+      headers = ["Timestamp", "Word"];
     } else {
-       // fallback for unknown types
        headers = ["Timestamp", "Data"];
     }
     
@@ -30,40 +29,45 @@ function doGet(e: any) {
     if (!sheet) {
       sheet = doc.insertSheet(sheetName);
       sheet.appendRow(headers);
-      // Make the headers bold
       sheet.getRange(1, 1, 1, headers.length).setFontWeight("bold");
-      // Freeze the top row
       sheet.setFrozenRows(1);
     }
     
-    // Prepare the row data to match the column headers perfectly
+    // Prepare the row data
     const rowData: any[] = [];
     headers.forEach(header => {
       if (header === "Timestamp") {
-        rowData.push(new Date()); // Current date and time
-      } else if (header === "Data") {
-        rowData.push(JSON.stringify(params));
+        rowData.push(new Date()); 
+      } else if (header === "Name") {
+        rowData.push(data.name || "");
+      } else if (header === "Message") {
+        rowData.push(data.message || "");
+      } else if (header === "Word") {
+        rowData.push(data.word || "");
       } else {
-        // Match the query parameter that maps to this exact header
-        rowData.push(params[header] || "");
+        rowData.push(JSON.stringify(data));
       }
     });
     
     // Append the new submission to the bottom of the sheet
     sheet.appendRow(rowData);
     
-    // Return success to the client
+    // Return success to the client with CORS headers
     return ContentService
       .createTextOutput(JSON.stringify({ result: "success", row: sheet.getLastRow() }))
       .setMimeType(ContentService.MimeType.JSON);
       
   } catch (error: any) {
-    // Return error if something goes wrong
     return ContentService
       .createTextOutput(JSON.stringify({ result: "error", error: error.toString() }))
       .setMimeType(ContentService.MimeType.JSON);
   } finally {
-    // Release the lock so the next submission can be processed
     lock.releaseLock();
   }
+}
+
+// Allow CORS for preflight requests
+function doOptions(e: any) {
+  return ContentService.createTextOutput("")
+    .setMimeType(ContentService.MimeType.TEXT);
 }
