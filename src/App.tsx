@@ -179,7 +179,7 @@ export default function MusicInvitation() {
               autoPlay
               muted
               playsInline
-              onEnded={openInvitation}
+              loop
               className="w-full h-full object-cover"
               src="/intro.mp4"
             />
