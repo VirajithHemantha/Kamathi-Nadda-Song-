@@ -489,12 +489,9 @@ export default function MusicInvitation() {
                   viewport={{ once: true }}
                   transition={{ duration: 1.5 }}
                 >
-                  <h2 className="font-sinhala-serif text-3xl md:text-4xl text-[#4A443D] mb-8">අහලා ගිය එකට ස්තූතියි. ❤️</h2>
+                  <h2 className="font-sinhala-serif text-3xl md:text-4xl text-[#4A443D] mb-8">ස්තූතියි. ❤️</h2>
 
-                  <div className="space-y-4 text-[#7A736A] font-light leading-relaxed">
-                    <p>ඔයාගේ පණිවිඩයත්<br />මේ ගීතයේ මතකයක් වෙන්න පුළුවන්.</p>
-                    <p>තවත් කෙනෙක්ටත් මේ ගීතය අහන්න දෙන්න.</p>
-                  </div>
+
                 </motion.div>
 
                 <motion.div
@@ -513,9 +510,7 @@ export default function MusicInvitation() {
                   >
                     <Headphones size={16} /> ආයෙත් අහන්න
                   </button>
-                  <button className="flex items-center gap-2 px-8 py-3 bg-[#FDFBF7] border border-[#E8E2D8] text-[#8C7C6B] hover:bg-[#F4EFE6] rounded-full transition-all text-sm shadow-sm">
-                    <Share2 size={16} /> Share කරන්න
-                  </button>
+
                 </motion.div>
 
                 <motion.div
@@ -523,9 +518,12 @@ export default function MusicInvitation() {
                   whileInView={{ opacity: 1 }}
                   viewport={{ once: true }}
                   transition={{ delay: 1, duration: 2 }}
-                  className="pt-16 font-sans text-xs tracking-[0.3em] uppercase text-[#9A958F]"
+                  className="pt-16 pb-8 flex flex-col items-center gap-4"
                 >
-                  {ARTIST_NAME}
+
+                  <p className="text-[#9A958F] text-[10px] font-sans tracking-widest uppercase">
+                    Create yours with <a target="_blank" rel="noreferrer" className="text-[#8C7C6B] hover:text-[#4A443D] underline" href="https://wa.me/94707819074">invitemint</a>
+                  </p>
                 </motion.div>
               </div>
             </footer>
