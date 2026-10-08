@@ -39,22 +39,20 @@ export default function MusicInvitation() {
 
   const openInvitation = () => {
     setIsOpened(true);
-    // Try to play music automatically
-    setTimeout(() => {
-      if (audioRef.current) {
-        const playPromise = audioRef.current.play();
-        if (playPromise !== undefined) {
-          playPromise
-            .then(() => {
-              setIsPlaying(true);
-            })
-            .catch(error => {
-              console.log("Audio autoplay blocked:", error);
-              setIsPlaying(false);
-            });
-        }
+    // Play music immediately in the same call stack as the user interaction
+    if (audioRef.current) {
+      const playPromise = audioRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            setIsPlaying(true);
+          })
+          .catch(error => {
+            console.log("Audio autoplay blocked:", error);
+            setIsPlaying(false);
+          });
       }
-    }, 500);
+    }
   };
 
   const togglePlay = () => {
@@ -154,6 +152,15 @@ export default function MusicInvitation() {
     <div className="min-h-[100dvh] bg-[#FDFBF7] text-[#4A443D] font-sinhala-sans overflow-x-hidden selection:bg-[#D2D6C9] selection:text-[#4A443D] relative">
       <div className="texture-overlay"></div>
 
+      {/* Audio element always mounted to allow immediate playback */}
+      <audio
+        ref={audioRef}
+        src={AUDIO_SRC}
+        onTimeUpdate={handleTimeUpdate}
+        onLoadedMetadata={handleLoadedMetadata}
+        onEnded={() => setIsPlaying(false)}
+      />
+
       <AnimatePresence mode="wait">
         {!isOpened ? (
           <motion.div
@@ -197,14 +204,6 @@ export default function MusicInvitation() {
             transition={{ duration: 1 }}
             className="relative w-full"
           >
-            <audio
-              ref={audioRef}
-              src={AUDIO_SRC}
-              autoPlay
-              onTimeUpdate={handleTimeUpdate}
-              onLoadedMetadata={handleLoadedMetadata}
-              onEnded={() => setIsPlaying(false)}
-            />
 
             {/* Persistent Audio Controls when playing */}
             <motion.div
